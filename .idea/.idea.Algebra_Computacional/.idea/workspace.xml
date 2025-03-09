@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aba14cc1-3515-4dbc-8558-3c52cddedb27" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MathDebbuger/Vec3.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MathDebbuger/Vec3.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Matrix/Matrix.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Matrix/Matrix.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Quat/Quat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Quat/Quat.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Algebra_Computacional/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Algebra_Computacional/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Vec_Plane/Vec_Plane.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Vec_Plane/Vec_Plane.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +93,7 @@
       <workItem from="1741040473643" duration="8000" />
       <workItem from="1741040497891" duration="777000" />
       <workItem from="1741395613541" duration="6362000" />
-      <workItem from="1741551764764" duration="5934000" />
+      <workItem from="1741551764764" duration="8136000" />
     </task>
     <servers />
   </component>

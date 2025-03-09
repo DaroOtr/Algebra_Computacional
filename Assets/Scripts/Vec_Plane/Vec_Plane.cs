@@ -2,11 +2,13 @@ using UnityEngine;
 
 namespace CustomMath
 {
+    /// <summary>
+    /// Un plano es un objeto matematico compuesto por una sucecion infinita de rectas que dividen el espacio en 2
+    /// </summary>
     public struct Vec_Plane 
     {
         
         // El tema de las coliciones tambien pasa por aca
-        internal const int size = 16;
 
         private Vec3 p_Normal;
 
@@ -44,12 +46,15 @@ namespace CustomMath
         }
 
         // flip the plane
-        public Vec_Plane flipped => new Vec_Plane(-p_Normal, 0f - p_Distance);
+        public Vec_Plane flipped => new Vec_Plane(-p_Normal, - p_Distance);
 
         public Vec_Plane(Vec3 inNormal, Vec3 inPoint)
         {
+            /*
+             * Solo puede pasar un plano que pase por este punto y la normal este a 90 grados
+             */
             p_Normal = inNormal.normalized;
-            p_Distance = 0f - Vec3.Dot(p_Normal, inPoint);
+            p_Distance = - Vec3.Dot(p_Normal, inPoint);
             va = Vec3.Zero; vb = Vec3.Zero; vc = Vec3.Zero;
         }
 
@@ -62,29 +67,38 @@ namespace CustomMath
 
         public Vec_Plane(Vec3 a, Vec3 b, Vec3 c)
         {
+            /*
+             * Teniendo 3 puntos sabemos que solo 1 plano puede pasar por estos mismos al mismo tiempo
+             * Con estos 3 puntos se busca un vector perpendicular a los vectores de (b - a y c - a) simultaneamente
+             * este mismo vector es la normal del plano (la cara positiva)
+             * Y despues se hace el producto punto para calcular la distancia desde el 00 del mundo al plano
+             *
+             * Si quiero dar vuelta la normal puedo pasarle los puntos al revez para que de esta manera la normal del plano quede al revez
+             */
+            
             va = a; vb = b; vc = c;
             Vec3 aux = Vec3.Cross(b - a, c - a);
             p_Normal = aux.normalized;
-            p_Distance = 0f - Vec3.Dot(p_Normal, a);
+            p_Distance = - Vec3.Dot(p_Normal, a);
         }
 
         public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
         {
             p_Normal = inNormal.normalized;
-            p_Distance = 0f - Vec3.Dot(inNormal, inPoint);
+            p_Distance = - Vec3.Dot(inNormal, inPoint);
         }
 
         public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
         {
             Vec3 aux = Vec3.Cross(b - a, c - a);
             p_Normal = aux.normalized;
-            p_Distance = 0f - Vec3.Dot(p_Normal, a);
+            p_Distance = - Vec3.Dot(p_Normal, a);
         }
 
         public void Flip()
         {
             p_Normal = -p_Normal;
-            p_Distance = 0f - p_Distance;
+            p_Distance = - p_Distance;
         }
 
         public void Translate(Vec3 translation)
@@ -99,22 +113,37 @@ namespace CustomMath
 
         public Vec3 ClosestPointOnPlane(Vec3 point)
         {
-            float num = Vec3.Dot(p_Normal, point) + p_Distance;
+            /*
+             * Devuelve el punto mas cercano del plano hacia este punto
+             * p_Normal * num devuelve el punto mas cercano dentro del plano
+             */
+            float num = GetDistanceToPoint(point);
             return point - p_Normal * num;
         }
 
         public float GetDistanceToPoint(Vec3 point)
         {
+            /*
+             * Devuelve la distancia que hay entre el punto y al plano + la distancia del plano hacia el origen del mundo
+             */
             return Vec3.Dot(p_Normal, point) + p_Distance;
         }
 
         public bool GetSide(Vec3 point)
         {
-            return Vec3.Dot(p_Normal, point) + p_Distance > 0f;
+            /*
+             * si la distancia es + esta del lado positivo del plano (Direccion donde apunta la normal)
+             * si la distancia es - estas del lado negativo del plano (Direccion contratria a la normal del plano)
+             */
+            return GetDistanceToPoint(point) > 0f;
         }
 
         public bool SameSide(Vec3 inPt0, Vec3 inPt1)
         {
+            /*
+             * Esta funcion chequea si ambos puntos estan del mismo lado del plano
+             * Si estan en lados opuestos devuelve falso, sino es verdadero
+             */
             float distanceToPoint = GetDistanceToPoint(inPt0);
             float distanceToPoint2 = GetDistanceToPoint(inPt1);
             return (distanceToPoint > 0f && distanceToPoint2 > 0f) || (distanceToPoint <= 0f && distanceToPoint2 <= 0f);
