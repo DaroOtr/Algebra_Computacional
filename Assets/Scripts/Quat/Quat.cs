@@ -58,7 +58,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Quat operator *(Quat lhs, Quat rhs)
+        public static Quat operator *(Quat lhs, Quat rhs) // Prestar atencion
         {
             float new_xq = lhs.wq * rhs.xq + lhs.xq * rhs.wq + lhs.yq * rhs.zq - lhs.zq * rhs.yq;
             float new_yq = lhs.wq * rhs.yq + lhs.yq * rhs.wq + lhs.zq * rhs.xq - lhs.xq * rhs.zq;
@@ -76,7 +76,7 @@ namespace CustomMath
         /// <param name="rotation"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static Vec3 operator *(Quat rotation, Vec3 point)
+        public static Vec3 operator *(Quat rotation, Vec3 point) // Prestar atencion
         {
             float rotX = rotation.xq * 2f;
             float rotY = rotation.yq * 2f;
@@ -156,8 +156,8 @@ namespace CustomMath
         /// <summary>
         /// Represents the rotation of a quaternion with the axes of the world (The "No Rotation")
         /// </summary>
-        public static Quat identity
-        {
+        public static Quat identity // Prestar Mucha atencion que son los numeros imaginarios , como esta compuesto un quat 
+        { 
             get { return new Quat(0, 0, 0, 1); }
         }
         #endregion
@@ -169,7 +169,7 @@ namespace CustomMath
         /// <param name="yq"></param>
         /// <param name="zq"></param>
         /// <returns></returns>
-        public static Quat Euler(float xq, float yq, float zq)
+        public static Quat Euler(float xq, float yq, float zq) // Prestar atencion
         {
             /* https://docs.unity3d.com/es/530/ScriptReference/Quaternion.Euler.html */
             float sin;
@@ -199,7 +199,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static Quat Euler(Vec3 angle)
+        public static Quat Euler(Vec3 angle) // Prestar atencion
         {
             return Euler(angle.x, angle.y, angle.z);
         }
@@ -210,7 +210,7 @@ namespace CustomMath
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        public static Quat EulerAngles(float x, float y, float z)
+        public static Quat EulerAngles(float x, float y, float z) // Prestar atencion
         {
             return Euler(x, y, z);
         }
@@ -219,7 +219,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static Quat EulerAngles(Vec3 angle)
+        public static Quat EulerAngles(Vec3 angle) // Prestar atencion
         {
             return Euler(angle.x, angle.y, angle.z);
         }

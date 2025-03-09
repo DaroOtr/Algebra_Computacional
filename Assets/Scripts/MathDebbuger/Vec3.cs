@@ -77,6 +77,10 @@ namespace CustomMath
         #region Operators
         public static bool operator ==(Vec3 left, Vec3 right)
         {
+            /*
+             * No se puede igualar dos floats gracias al error de punto flotante , asi que buscamos la diferencia entre
+             * Ambos numeros y si la diferencia es menor a epsilon al cuadrado (Numero muy chico) significa que son preacticamente iguales
+             */
             float diff_x = left.x - right.x;
             float diff_y = left.y - right.y;
             float diff_z = left.z - right.z;
@@ -195,6 +199,12 @@ namespace CustomMath
         /// https://docs.unity3d.com/ScriptReference/Vector3.Angle.html
         public static float Angle(Vec3 from, Vec3 to)
         {
+            /*
+             * Primero normalizamos los dos vectores para que su magnitud no afecte el resultado
+             * Luego se usa el producto punto para sacar el coseno del angulo entre los dos vectores
+             * Luego se usa el arcocoseno para pasar el coseno a angulos (En radianes)
+             * Y finalmente se multiplica por 180 / PI para pasarlo a grados.
+             */
             return Mathf.Acos(Dot(from.normalized,to.normalized)) * 180 / Mathf.PI;
         }
 
@@ -228,8 +238,9 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// The cross product of two vectors results in a third vector 
-        /// which is perpendicular to the two input vectors
+        /// The cross product of two vectors results in a third vector which is perpendicular to the two input vectors.
+        /// The result's magnitude is equal to the magnitudes of the two inputs multiplied together and then multiplied by the sine of the angle between the inputs.
+        /// You can determine the direction of the result vector using the "left hand rule".
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -256,12 +267,18 @@ namespace CustomMath
             float diffY = b.y - a.y;
             float diffZ = b.z - a.z;
 
+            /*
+             * Se calulan las diferencias entre los componentes (x,y,z)
+             * primero se multiplican para conseguir remover el signo negativo sobre la suma de todas las diferencias
+             * Y luego se utiliza la raiz cuadrada para revertir este proceso del cuadrado y asi obtener la distancia real
+             * Ya que la distancia no puede ser negativa
+             */
             return Mathf.Sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
         }
 
         //https://docs.unity3d.com/ScriptReference/Vector3.Dot.html
         /// <summary>
-        /// Return a float value equal to the magnitudes of the two vectors multiplied together
+        /// Return a float value equal to the magnitudes of the two vectors multiplied together and then multiplied by the cosine of the angle between them.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -269,21 +286,34 @@ namespace CustomMath
         public static float Dot(Vec3 a, Vec3 b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
+            /*
+             * Si el resultado es positivo los dos vectores tienen una direccion similar
+             * Si el resultado es Negativo tienen direcciones opuestas
+             * y Si el valor es 0 son perpendiculares entre si (Estan a 90 el uno del otro)
+             */
         }
 
         /// <summary>
-        /// Return The dot product is a float value equal to the magnitudes 
-        /// of the two vectors multiplied together and then multiplied 
-        /// by the cosine of the angle between them.
+        /// Se utiliza para realizar una interpolacion lineal entre dos puntos tridimencionales
+        /// La interpolacion es un metodo que se utiliza para encontrar un punto intermedio entre dos vectores
+        /// mediante una linea recta que los une
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
         /// https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html
-        // Punto interpolado entre el inicio y el final 
+        // Punto interpolado lineal entre el inicio y el final 
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
+            /*
+             * Vec A punto inicial
+             * Vec B punto final
+             * T interpolante
+             * el interpolante es la representacion de caunto del recorrido entre un punto y el otro se hizo
+             * Si este mismo tiende a 0 esta mas cerca del punto inicial
+             * Si tiende a 1 esta mas cerca del final
+             */
             Mathf.Clamp(t,0,1);
             return a + (b - a) * t;
         }
@@ -355,17 +385,23 @@ namespace CustomMath
         /// https://docs.unity3d.com/ScriptReference/Vector3.ProjectOnPlane.html
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
-            float aux = Dot(onNormal,onNormal);
-            if (aux < epsilon)
+            /*
+             * El dot se utiliza para calcular el desfasaje que hay entre los vectores
+             */
+            float sqrMag = Dot(onNormal,onNormal);
+            if (sqrMag < epsilon)
             {
                 return Zero;
             }
             else
             {
-                float aux2 = Dot(vector, onNormal);
-                float projectionX = onNormal.x * aux2 / aux;
-                float projectionY = onNormal.y * aux2 / aux;
-                float projectionZ = onNormal.z * aux2 / aux;
+                /*
+                 * se multiplica por el dot para sacar la direccion del vector y luego se divide por sqrmag para obtener la magnitud del vector proyectado
+                 */
+                float dot = Dot(vector, onNormal);
+                float projectionX = onNormal.x * dot / sqrMag;
+                float projectionY = onNormal.y * dot / sqrMag;
+                float projectionZ = onNormal.z * dot / sqrMag;
                 return new Vec3(projectionX, projectionY, projectionZ);
             }
         }
@@ -380,14 +416,10 @@ namespace CustomMath
         /// <returns></returns>
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
-            //float opositeAngle = - 2f * Vec3.Dot(inDirection, inNormal);
-            //
-            //float reflectX = opositeAngle * inDirection.x + inNormal.x;
-            //float reflectY = opositeAngle * inDirection.y + inNormal.y;
-            //float reflectZ = opositeAngle * inDirection.z + inNormal.z;
-            //
-            //return new Vec3(reflectX,reflectY, reflectZ);
-
+            /*
+             * A partir de la direccion de entrada tomamos el doble del angulo
+             * y luego lo volvemos a multiplicar por la normal para ponerlo en magnitud
+             */
             return inDirection - 2 * (Dot(inDirection, inNormal)) * inNormal;
         }
 
@@ -421,9 +453,9 @@ namespace CustomMath
         /// <exception cref="NotImplementedException"></exception>
         public void Normalize()
         {
-            x = x / this.magnitude;
-            y = y / this.magnitude;
-            z = z / this.magnitude;
+            x = x / magnitude;
+            y = y / magnitude;
+            z = z / magnitude;
         }
         #endregion
 

@@ -1,11 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /* https://referencesource.microsoft.com/#System.Numerics/System/Numerics/Matrix4x4.cs */
 /* https://es.wikipedia.org/wiki/Cuaterni%C3%B3n */
 /* https://learn.microsoft.com/en-us/dotnet/api/system.double.nan?view=net-7.0 */
+
+// La mejor explicacion esta en LernOpenGl matriz trs
+// https://learnopengl.com/Getting-started/Transformations
 
 namespace CustomMath
 {
@@ -190,7 +191,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Matrix operator *(Matrix lhs, Matrix rhs)
+        public static Matrix operator *(Matrix lhs, Matrix rhs) // Prestar atencion
         {
             Matrix returnM = Zero;
 
@@ -220,7 +221,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public static Vector4 operator *(Matrix lhs, Vector4 vector)
+        public static Vector4 operator *(Matrix lhs, Vector4 vector) // Prestar atencion
         {
             Vector4 returnV = Vector4.zero;
 
@@ -243,7 +244,7 @@ namespace CustomMath
         /// Get The matrix rotation
         /// </summary>
         /// <returns></returns>
-        private Quat GetRotation()
+        private Quat GetRotation() // Prestar atencion
         {
             Matrix matr = this;
             Quat returnQ = new Quat();
@@ -264,7 +265,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="q"></param>
         /// <returns></returns>
-        public static Matrix Rotate(Quat q)
+        public static Matrix Rotate(Quat q) // Prestar atencion
         {
             float x = q.xq * 2f;
             float y = q.yq * 2f;
@@ -307,7 +308,7 @@ namespace CustomMath
         /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
-        public Vec3 lossyScale => GetLosszScale();
+        public Vec3 lossyScale => GetLosszScale(); 
 
         /// <summary>
         /// Attempts to get a scale value from the matrix. (Read Only)
@@ -315,7 +316,7 @@ namespace CustomMath
         /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
-        private Vec3 GetLosszScale()
+        private Vec3 GetLosszScale() 
         {
             return new Vec3(GetColumn(1).magnitude, GetColumn(2).magnitude, GetColumn(3).magnitude);
         }
@@ -337,7 +338,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private static float Determinant(Matrix m)
+        private static float Determinant(Matrix m) // Prestar atencion
         {
             return
                 m[0, 3] * m[1, 2] * m[2, 1] * m[3, 0] - m[0, 2] * m[1, 3] * m[2, 1] * m[3, 0] -
@@ -368,8 +369,8 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Matrix Transpose(Matrix m)
-        {
+        private Matrix Transpose(Matrix m) // Prestar atencion
+        { 
             float aux;
 
             aux = m.m01;
@@ -405,7 +406,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Matrix Inverse(Matrix m)
+        private Matrix Inverse(Matrix m) // Prestar atencion
         {
             float detA = Determinant(m);
             if (detA == 0)
@@ -491,7 +492,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public static Matrix Translate(Vec3 vector)
+        public static Matrix Translate(Vec3 vector) // Prestar atencion
         {
             Matrix retMat = Zero;
 
@@ -548,7 +549,7 @@ namespace CustomMath
         /// Check if the matrix is valid for Rendering
         /// </summary>
         /// <returns></returns>
-        public bool ValidTRS()
+        public bool ValidTRS() // Prestar atencion
         {
             if (lossyScale == Vec3.Zero)
                 return false;
@@ -630,7 +631,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public Vec3 MultiplyPoint(Vec3 point)
+        public Vec3 MultiplyPoint(Vec3 point) // Prestar atencion
         {
             Vec3 retVec;
 
@@ -653,7 +654,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public Vec3 MultiplyPoint3x4(Vec3 point)
+        public Vec3 MultiplyPoint3x4(Vec3 point) // Prestar atencion
         {
             Vec3 retVec;
 
@@ -671,7 +672,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public Vec3 MultiplyVector(Vec3 vector)
+        public Vec3 MultiplyVector(Vec3 vector) // Prestar atencion
         {
             Vec3 retVec;
 

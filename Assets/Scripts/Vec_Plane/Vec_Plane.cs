@@ -1,12 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CustomMath
 {
     public struct Vec_Plane 
     {
+        
+        // El tema de las coliciones tambien pasa por aca
         internal const int size = 16;
 
         private Vec3 p_Normal;
