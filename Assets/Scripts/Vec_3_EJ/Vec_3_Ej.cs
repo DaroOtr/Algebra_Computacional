@@ -121,8 +121,8 @@ public class Vec_3_Ej : MonoBehaviour
 
     private void Ej8()
     {
-        Vec3 aux = Vec3.Reflect(First_Vec, Second_Vec.normalized);
-        Res_Vec = -aux;
+        Vec3 aux = First_Vec + Second_Vec;
+        Res_Vec = aux.normalized * Vec3.Distance(First_Vec,Second_Vec);
     }
 
     private void Ej9()
