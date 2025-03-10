@@ -5,20 +5,21 @@ using UnityEngine;
 public class Collision_Manager : MonoBehaviour
 {
     public List<Vec_MeshColider> objs_Mesh;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
+    public Material collMaterial;
+    public Material normalMaterial;
     void Update()
     {
         foreach (Vec3 item in objs_Mesh[0].p_Inside_Mesh)
         {
             if (objs_Mesh[1].IsPointColliding(item))
             {
-                Debug.Log("Colliding");
+                objs_Mesh[0].gameObject.GetComponent<MeshRenderer>().material = collMaterial;
+                objs_Mesh[1].gameObject.GetComponent<MeshRenderer>().material = collMaterial;
+            }
+            else
+            {
+                objs_Mesh[0].gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
+                objs_Mesh[1].gameObject.GetComponent<MeshRenderer>().material = normalMaterial;
             }
         }
     }

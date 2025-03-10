@@ -256,6 +256,7 @@ namespace CustomMath
             returnQ.xq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] - matr[1, 1] - matr[2, 2])) / 2;
             returnQ.yq = Mathf.Sqrt(Mathf.Max(0, 1 - matr[0, 0] + matr[1, 1] - matr[2, 2])) / 2;
             returnQ.zq = Mathf.Sqrt(Mathf.Max(0, 1 - matr[0, 0] - matr[1, 1] + matr[2, 2])) / 2;
+            
             returnQ.xq *= Mathf.Sign(returnQ.xq * (matr[2, 1] - matr[1, 2]));
             returnQ.yq *= Mathf.Sign(returnQ.yq * (matr[0, 2] - matr[2, 0]));
             returnQ.zq *= Mathf.Sign(returnQ.zq * (matr[1, 0] - matr[0, 1]));
@@ -708,7 +709,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public Vec3 MultiplyVector(Vec3 vector) // Prestar atencion
+        public Vec3 MultiplyVector(Vec3 vector)
         {
             Vec3 retVec;
 

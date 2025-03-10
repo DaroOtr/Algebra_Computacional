@@ -170,6 +170,8 @@ MonoBehaviour:
   objs_Mesh:
   - {fileID: 531883161}
   - {fileID: 495891712}
+  collMaterial: {fileID: 2100000, guid: df9d0e8f9ad19444d83dfcf9bbdc200d, type: 2}
+  normalMaterial: {fileID: 2100000, guid: e90c84b5a3e227d4ca456ffef97449ea, type: 2}
 --- !u!1 &495891711
 GameObject:
   m_ObjectHideFlags: 0
