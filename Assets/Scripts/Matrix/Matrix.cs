@@ -193,7 +193,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static Matrix operator *(Matrix lhs, Matrix rhs) // Prestar atencion
+        public static Matrix operator *(Matrix lhs, Matrix rhs)
         {
             Matrix returnM = Zero;
 
@@ -223,7 +223,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public static Vector4 operator *(Matrix lhs, Vector4 vector) // Prestar atencion
+        public static Vector4 operator *(Matrix lhs, Vector4 vector)
         {
             Vector4 returnV = Vector4.zero;
 
@@ -247,16 +247,25 @@ namespace CustomMath
         /// Get The matrix rotation
         /// </summary>
         /// <returns></returns>
-        private Quat GetRotation() // Prestar atencion
+        private Quat GetRotation()
         {
             Matrix matr = this;
             Quat returnQ = new Quat();
 
+            /*
+             * parte real
+             */
+            // se obtienen los datos del quaternion en base a la digonal de la matriz
+            // nota : el 1 es para asegurarse de que el valor sea positivo y se utiliza MAX para evitar numeros complejos
+            // y se divide en 2 para normalizarlo
             returnQ.wq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] + matr[1, 1] + matr[2, 2])) / 2;
             returnQ.xq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] - matr[1, 1] - matr[2, 2])) / 2;
             returnQ.yq = Mathf.Sqrt(Mathf.Max(0, 1 - matr[0, 0] + matr[1, 1] - matr[2, 2])) / 2;
             returnQ.zq = Mathf.Sqrt(Mathf.Max(0, 1 - matr[0, 0] - matr[1, 1] + matr[2, 2])) / 2;
             
+            // parte compleja
+            // la diferencia entre los elementos fuera de la digonal determinan la direccion de la rotacion
+            // y ademas de ajustar los signos, Mathf.Sing asegura que tengan la orientacion correcta 
             returnQ.xq *= Mathf.Sign(returnQ.xq * (matr[2, 1] - matr[1, 2]));
             returnQ.yq *= Mathf.Sign(returnQ.yq * (matr[0, 2] - matr[2, 0]));
             returnQ.zq *= Mathf.Sign(returnQ.zq * (matr[1, 0] - matr[0, 1]));
@@ -269,7 +278,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="q"></param>
         /// <returns></returns>
-        public static Matrix Rotate(Quat q) // Prestar atencion
+        public static Matrix Rotate(Quat q)
         {
             float x = q.xq * 2f;
             float y = q.yq * 2f;
@@ -315,9 +324,7 @@ namespace CustomMath
         public Vec3 lossyScale => GetLosszScale();
 
         /// <summary>
-        /// Attempts to get a scale value from the matrix. (Read Only)
-        /// Scale can only be represented correctly by a 3x3 matrix instead of a 3 component vector, if the given matrix has been skewed for example. lossyScale 
-        /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
+        /// Esto devuelve la escala real del objeto una vez aplicadas todas las transformaciones
         /// </summary>
         /// <returns></returns>
         private Vec3 GetLosszScale()
@@ -343,7 +350,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private static float Determinant(Matrix m) // Prestar atencion
+        private static float Determinant(Matrix m)
         {
             /*
              * Es una operacion que determina si una matriz puede ser invertida sin perder informacion
@@ -526,7 +533,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public static Matrix Translate(Vec3 vector) // Prestar atencion
+        public static Matrix Translate(Vec3 vector)
         {
             Matrix retMat = Zero;
 
@@ -583,7 +590,7 @@ namespace CustomMath
         /// Check if the matrix is valid for Rendering
         /// </summary>
         /// <returns></returns>
-        public bool ValidTRS() // Prestar atencion
+        public bool ValidTRS()
         {
             if (lossyScale == Vec3.Zero)
                 return false;
@@ -690,7 +697,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public Vec3 MultiplyPoint3x4(Vec3 point) // Prestar atencion
+        public Vec3 MultiplyPoint3x4(Vec3 point)
         {
             Vec3 retVec;
 

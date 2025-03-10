@@ -90,34 +90,6 @@ public class Vec_MeshColider : MonoBehaviour
         foreach (var point in pointsToCheck)
         {
             Vec3 direction = Vec3.Forward * 10f;
-            //int sl_Dir = UnityEngine.Random.Range(1,7);
-            //Debug.Log("sl_Dir " + sl_Dir);
-            //switch (sl_Dir)
-            //{
-            //    case 1:
-            //        direction = Vec3.Up * 10f;
-            //        break;
-            //    case 2:
-            //        direction = Vec3.Down * 10f;
-            //
-            //        break;
-            //    case 3:
-            //        direction = Vec3.Left * 10f;
-            //        break;
-            //    case 4:
-            //        direction = Vec3.Right * 10f;
-            //        break;
-            //    case 5:
-            //        direction = Vec3.Forward * 10f;
-            //        break;
-            //    case 6:
-            //        direction = Vec3.Back * 10f;
-            //        break;
-            //}
-
-            // Hacer un random para la direccion del rayo 
-            // En base a eso definir la direccion 
-            // SI ALGO SALE MAL MALA TUYA 
 
             Vec_Ray ray = new Vec_Ray(point, direction);
             int counter = 0;
@@ -134,11 +106,8 @@ public class Vec_MeshColider : MonoBehaviour
                 }
             }
 
-            //Debug.Log("counter " + counter);
-
             if (counter % 2 == 1)
             {
-                //Debug.Log("Point cord " + point);
                 p_Inside_Mesh.Add(point);
             }
         }
@@ -161,8 +130,7 @@ public class Vec_MeshColider : MonoBehaviour
 
     // http://www.jeffreythompson.org/collision-detection/tri-point.php
     // Triangle Point Collision
-
-    // Arreglar Esto Que parece ser donde esta el problema 
+    
     private bool IsValidPlane(Vec_Plane mesh_P, Vec3 point)
     {
         float x1 = mesh_P.va.x;
@@ -187,11 +155,6 @@ public class Vec_MeshColider : MonoBehaviour
 
         // if the sum of the three areas equals the original,
         // we're inside the triangle!
-        //if (area1 + area2 + area3 == areaOrig)
-        //{
-        //    return true;
-        //}
-        //return false;
         return Math.Abs(area1 + area2 + area3 - areaOrig) < Vec3.epsilon;
     }
 
@@ -233,12 +196,6 @@ public class Vec_MeshColider : MonoBehaviour
         {
             return;
         }
-
-        //Gizmos.color = Color.red;
-        //for (int i = 0; i < colP.Count; i++)
-        //{
-        //    Gizmos.DrawWireSphere(colP[i],0.1f);
-        //}
 
         foreach (var item in pointsToCheck)
         {

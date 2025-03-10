@@ -7,7 +7,7 @@
     <list default="true" id="aba14cc1-3515-4dbc-8558-3c52cddedb27" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Algebra_Computacional/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Algebra_Computacional/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Matrix/Matrix.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Matrix/Matrix.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Vec_Plane/Collision_Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Vec_Plane/Collision_Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Vec_Plane/Vec_MeshColider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Vec_Plane/Vec_MeshColider.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +94,7 @@
       <workItem from="1741040473643" duration="8000" />
       <workItem from="1741040497891" duration="777000" />
       <workItem from="1741395613541" duration="6362000" />
-      <workItem from="1741551764764" duration="23680000" />
+      <workItem from="1741551764764" duration="25618000" />
     </task>
     <servers />
   </component>
