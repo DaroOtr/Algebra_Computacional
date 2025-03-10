@@ -564,7 +564,8 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// public static Quaternion LookRotation(Vector3 forward, Vector3 upwards = Vector3.up); 
+        /// Toma una dirección hacia el frente del objeto y con un vector hacia arriba definido
+        /// y devuelva la rotación necesaria para quedar orientado hacia el vector forward.
         /// </summary>
         /// <param name="forward"></param>
         /// <param name="upwards"></param>

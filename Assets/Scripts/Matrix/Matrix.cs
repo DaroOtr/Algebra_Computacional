@@ -256,7 +256,7 @@ namespace CustomMath
              * parte real
              */
             // se obtienen los datos del quaternion en base a la digonal de la matriz
-            // nota : el 1 es para asegurarse de que el valor sea positivo y se utiliza MAX para evitar numeros complejos
+            // nota : el 1 por que se utilizan los calculos en base a la diagonal y se utiliza MAX para evitar numeros complejos
             // y se divide en 2 para normalizarlo
             returnQ.wq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] + matr[1, 1] + matr[2, 2])) / 2;
             returnQ.xq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] - matr[1, 1] - matr[2, 2])) / 2;
@@ -571,7 +571,7 @@ namespace CustomMath
             Matrix r = Rotate(rotation);
             Matrix s = Scale(scale);
 
-            return t * r * s;
+            return s * r * t;
         }
 
         /// <summary>
