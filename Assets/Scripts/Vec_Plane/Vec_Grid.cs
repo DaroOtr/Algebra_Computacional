@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using CustomMath;
-using System;
+using UnityEngine;
 
 public class Vec_Grid : MonoBehaviour
 {
@@ -18,7 +15,7 @@ public class Vec_Grid : MonoBehaviour
     void Start()
     {
         // Inisializo La Grilla
-        v_Grid = new Vec3[sizeX,sizeY,sizeZ];
+        v_Grid = new Vec3[sizeX, sizeY, sizeZ];
 
         for (int x = 0; x < v_Grid.GetLength(0); x++)
         {
@@ -27,7 +24,7 @@ public class Vec_Grid : MonoBehaviour
                 for (int z = 0; z < v_Grid.GetLength(2); z++)
                 {
                     // Lo multiplico por delta para que cada punto tenga una separacion
-                    v_Grid[x, y, z] = new Vec3(x,y,z) * delta;
+                    v_Grid[x, y, z] = new Vec3(x, y, z) * delta;
                 }
             }
         }
@@ -37,7 +34,9 @@ public class Vec_Grid : MonoBehaviour
     {
         // Muestro la Grilla
         if (!Application.isPlaying)
-        { return; }
+        {
+            return;
+        }
 
         Gizmos.color = Color.black;
 
@@ -50,7 +49,7 @@ public class Vec_Grid : MonoBehaviour
             {
                 for (int z = 0; z < v_Grid.GetLength(2); z++)
                 {
-                    Gizmos.DrawWireSphere(v_Grid[x,y,z], pointsInGridSize);
+                    Gizmos.DrawWireSphere(v_Grid[x, y, z], pointsInGridSize);
                 }
             }
         }

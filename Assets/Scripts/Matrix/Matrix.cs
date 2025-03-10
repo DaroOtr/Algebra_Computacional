@@ -13,6 +13,7 @@ namespace CustomMath
     public struct Matrix
     {
         #region Variables
+
         public float m00;
         public float m10;
         public float m20;
@@ -33,6 +34,7 @@ namespace CustomMath
         #endregion
 
         #region Constructor
+
         public Matrix(Vector4 col1, Vector4 col2, Vector4 col3, Vector4 col4)
         {
             m00 = col1.x;
@@ -52,11 +54,16 @@ namespace CustomMath
             m32 = col3.w;
             m33 = col4.w;
         }
+
         #endregion
 
         #region Operators
-        private static readonly Matrix Zero = new Matrix(new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f));
-        private static readonly Matrix Identity = new Matrix(new Vector4(1f, 0f, 0f, 0f), new Vector4(0f, 1f, 0f, 0f), new Vector4(0f, 0f, 1f, 0f), new Vector4(0f, 0f, 0f, 1f));
+
+        private static readonly Matrix Zero = new Matrix(new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f),
+            new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f));
+
+        private static readonly Matrix Identity = new Matrix(new Vector4(1f, 0f, 0f, 0f), new Vector4(0f, 1f, 0f, 0f),
+            new Vector4(0f, 0f, 1f, 0f), new Vector4(0f, 0f, 0f, 1f));
 
         /// <summary>
         /// Select a index between 0 and 15
@@ -166,15 +173,10 @@ namespace CustomMath
 
         public float this[int row, int column]
         {
-            get
-            {
-                return this[row + column * 4];
-            }
-            set
-            {
-                this[row + column * 4] = value;
-            }
+            get { return this[row + column * 4]; }
+            set { this[row + column * 4] = value; }
         }
+
         public static bool operator ==(Matrix lhs, Matrix rhs)
         {
             return lhs.GetColumn(0) == rhs.GetColumn(0) &&
@@ -232,6 +234,7 @@ namespace CustomMath
 
             return returnV;
         }
+
         #endregion
 
         /// <summary>
@@ -308,7 +311,7 @@ namespace CustomMath
         /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
-        public Vec3 lossyScale => GetLosszScale(); 
+        public Vec3 lossyScale => GetLosszScale();
 
         /// <summary>
         /// Attempts to get a scale value from the matrix. (Read Only)
@@ -316,7 +319,7 @@ namespace CustomMath
         /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
-        private Vec3 GetLosszScale() 
+        private Vec3 GetLosszScale()
         {
             return new Vec3(GetColumn(1).magnitude, GetColumn(2).magnitude, GetColumn(3).magnitude);
         }
@@ -333,6 +336,7 @@ namespace CustomMath
         ///  the determinant is a scalar value that is a function of the entries of a square matrix.
         /// </summary>
         public float determinant => Determinant(this);
+
         /// <summary>
         ///  the determinant is a scalar value that is a function of the entries of a square matrix.
         /// </summary>
@@ -340,6 +344,11 @@ namespace CustomMath
         /// <returns></returns>
         private static float Determinant(Matrix m) // Prestar atencion
         {
+            /*
+             * Es una operacion que determina si una matriz puede ser invertida sin perder informacion
+             * Esto se hace de esta manera por que es un metodo mas eficiente para el microprocesador
+             */
+            
             return
                 m[0, 3] * m[1, 2] * m[2, 1] * m[3, 0] - m[0, 2] * m[1, 3] * m[2, 1] * m[3, 0] -
                 m[0, 3] * m[1, 1] * m[2, 2] * m[3, 0] + m[0, 1] * m[1, 3] * m[2, 2] * m[3, 0] +
@@ -369,8 +378,8 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Matrix Transpose(Matrix m) // Prestar atencion
-        { 
+        private Matrix Transpose(Matrix m)
+        {
             float aux;
 
             aux = m.m01;
@@ -401,41 +410,66 @@ namespace CustomMath
         }
 
         public Matrix inverse => Inverse(this);
+
         /// <summary>
         /// The inverse of this matrix. (Read Only)
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Matrix Inverse(Matrix m) // Prestar atencion
+        private Matrix Inverse(Matrix m)
         {
             float detA = Determinant(m);
+            
             if (detA == 0)
                 return Zero;
 
             Matrix aux = new Matrix()
             {
                 // Primera Columna
-                m00 = m.m11 * m.m22 * m.m33 + m.m12 * m.m23 * m.m31 + m.m13 * m.m21 * m.m32 - m.m11 * m.m23 * m.m32 - m.m12 * m.m21 * m.m33 - m.m13 * m.m22 * m.m31,
-                m01 = m.m01 * m.m23 * m.m32 + m.m02 * m.m21 * m.m33 + m.m03 * m.m22 * m.m31 - m.m01 * m.m22 * m.m33 - m.m02 * m.m23 * m.m31 - m.m03 * m.m21 * m.m32,
-                m02 = m.m01 * m.m12 * m.m33 + m.m02 * m.m13 * m.m32 + m.m03 * m.m11 * m.m32 - m.m01 * m.m13 * m.m32 - m.m02 * m.m11 * m.m33 - m.m03 * m.m12 * m.m31,
-                m03 = m.m01 * m.m13 * m.m22 + m.m02 * m.m11 * m.m23 + m.m03 * m.m12 * m.m21 - m.m01 * m.m12 * m.m23 - m.m02 * m.m13 * m.m21 - m.m03 * m.m11 * m.m22,
+                m00 = m.m11 * m.m22 * m.m33 + m.m12 * m.m23 * m.m31 + m.m13 * m.m21 * m.m32 - m.m11 * m.m23 * m.m32 -
+                      m.m12 * m.m21 * m.m33 - m.m13 * m.m22 * m.m31,
+                m01 = m.m01 * m.m23 * m.m32 + m.m02 * m.m21 * m.m33 + m.m03 * m.m22 * m.m31 - m.m01 * m.m22 * m.m33 -
+                      m.m02 * m.m23 * m.m31 - m.m03 * m.m21 * m.m32,
+                m02 = m.m01 * m.m12 * m.m33 + m.m02 * m.m13 * m.m32 + m.m03 * m.m11 * m.m32 - m.m01 * m.m13 * m.m32 -
+                      m.m02 * m.m11 * m.m33 - m.m03 * m.m12 * m.m31,
+                m03 = m.m01 * m.m13 * m.m22 + m.m02 * m.m11 * m.m23 + m.m03 * m.m12 * m.m21 - m.m01 * m.m12 * m.m23 -
+                      m.m02 * m.m13 * m.m21 - m.m03 * m.m11 * m.m22,
                 // Segunda Columna				     								    
-                m10 = m.m10 * m.m23 * m.m32 + m.m12 * m.m20 * m.m33 + m.m13 * m.m22 * m.m30 - m.m10 * m.m22 * m.m33 - m.m12 * m.m23 * m.m30 - m.m13 * m.m20 * m.m32,
-                m11 = m.m00 * m.m22 * m.m33 + m.m02 * m.m23 * m.m30 + m.m03 * m.m20 * m.m32 - m.m00 * m.m23 * m.m32 - m.m02 * m.m20 * m.m33 - m.m03 * m.m22 * m.m30,
-                m12 = m.m00 * m.m13 * m.m32 + m.m02 * m.m10 * m.m33 + m.m03 * m.m12 * m.m30 - m.m00 * m.m12 * m.m33 - m.m02 * m.m13 * m.m30 - m.m03 * m.m10 * m.m32,
-                m13 = m.m00 * m.m12 * m.m23 + m.m02 * m.m13 * m.m20 + m.m03 * m.m10 * m.m22 - m.m00 * m.m13 * m.m22 - m.m02 * m.m10 * m.m23 - m.m03 * m.m12 * m.m20,
+                m10 = m.m10 * m.m23 * m.m32 + m.m12 * m.m20 * m.m33 + m.m13 * m.m22 * m.m30 - m.m10 * m.m22 * m.m33 -
+                      m.m12 * m.m23 * m.m30 - m.m13 * m.m20 * m.m32,
+                m11 = m.m00 * m.m22 * m.m33 + m.m02 * m.m23 * m.m30 + m.m03 * m.m20 * m.m32 - m.m00 * m.m23 * m.m32 -
+                      m.m02 * m.m20 * m.m33 - m.m03 * m.m22 * m.m30,
+                m12 = m.m00 * m.m13 * m.m32 + m.m02 * m.m10 * m.m33 + m.m03 * m.m12 * m.m30 - m.m00 * m.m12 * m.m33 -
+                      m.m02 * m.m13 * m.m30 - m.m03 * m.m10 * m.m32,
+                m13 = m.m00 * m.m12 * m.m23 + m.m02 * m.m13 * m.m20 + m.m03 * m.m10 * m.m22 - m.m00 * m.m13 * m.m22 -
+                      m.m02 * m.m10 * m.m23 - m.m03 * m.m12 * m.m20,
                 // Tercera Columna				     								    
-                m20 = m.m10 * m.m21 * m.m33 + m.m11 * m.m23 * m.m30 + m.m13 * m.m20 * m.m31 - m.m10 * m.m23 * m.m31 - m.m11 * m.m20 * m.m33 - m.m13 * m.m31 * m.m30,
-                m21 = m.m00 * m.m23 * m.m31 + m.m01 * m.m20 * m.m33 + m.m03 * m.m21 * m.m30 - m.m00 * m.m21 * m.m33 - m.m01 * m.m23 * m.m30 - m.m03 * m.m20 * m.m31,
-                m22 = m.m00 * m.m11 * m.m33 + m.m01 * m.m13 * m.m31 + m.m03 * m.m10 * m.m31 - m.m00 * m.m13 * m.m31 - m.m01 * m.m10 * m.m33 - m.m03 * m.m11 * m.m30,
-                m23 = m.m00 * m.m13 * m.m21 + m.m01 * m.m10 * m.m23 + m.m03 * m.m11 * m.m31 - m.m00 * m.m11 * m.m23 - m.m01 * m.m13 * m.m20 - m.m03 * m.m10 * m.m21,
+                m20 = m.m10 * m.m21 * m.m33 + m.m11 * m.m23 * m.m30 + m.m13 * m.m20 * m.m31 - m.m10 * m.m23 * m.m31 -
+                      m.m11 * m.m20 * m.m33 - m.m13 * m.m31 * m.m30,
+                m21 = m.m00 * m.m23 * m.m31 + m.m01 * m.m20 * m.m33 + m.m03 * m.m21 * m.m30 - m.m00 * m.m21 * m.m33 -
+                      m.m01 * m.m23 * m.m30 - m.m03 * m.m20 * m.m31,
+                m22 = m.m00 * m.m11 * m.m33 + m.m01 * m.m13 * m.m31 + m.m03 * m.m10 * m.m31 - m.m00 * m.m13 * m.m31 -
+                      m.m01 * m.m10 * m.m33 - m.m03 * m.m11 * m.m30,
+                m23 = m.m00 * m.m13 * m.m21 + m.m01 * m.m10 * m.m23 + m.m03 * m.m11 * m.m31 - m.m00 * m.m11 * m.m23 -
+                      m.m01 * m.m13 * m.m20 - m.m03 * m.m10 * m.m21,
                 // Cuarta Columna					     								    
-                m30 = m.m10 * m.m22 * m.m31 + m.m11 * m.m20 * m.m32 + m.m12 * m.m21 * m.m30 - m.m00 * m.m21 * m.m32 - m.m11 * m.m22 * m.m30 - m.m12 * m.m20 * m.m31,
-                m31 = m.m00 * m.m21 * m.m32 + m.m01 * m.m22 * m.m30 + m.m02 * m.m20 * m.m31 - m.m00 * m.m22 * m.m31 - m.m01 * m.m20 * m.m32 - m.m02 * m.m21 * m.m30,
-                m32 = m.m00 * m.m12 * m.m31 + m.m01 * m.m10 * m.m32 + m.m02 * m.m11 * m.m30 - m.m00 * m.m11 * m.m32 - m.m01 * m.m12 * m.m30 - m.m02 * m.m10 * m.m31,
-                m33 = m.m00 * m.m11 * m.m22 + m.m01 * m.m12 * m.m20 + m.m02 * m.m10 * m.m21 - m.m00 * m.m12 * m.m21 - m.m01 * m.m10 * m.m22 - m.m02 * m.m11 * m.m20
+                m30 = m.m10 * m.m22 * m.m31 + m.m11 * m.m20 * m.m32 + m.m12 * m.m21 * m.m30 - m.m00 * m.m21 * m.m32 -
+                      m.m11 * m.m22 * m.m30 - m.m12 * m.m20 * m.m31,
+                m31 = m.m00 * m.m21 * m.m32 + m.m01 * m.m22 * m.m30 + m.m02 * m.m20 * m.m31 - m.m00 * m.m22 * m.m31 -
+                      m.m01 * m.m20 * m.m32 - m.m02 * m.m21 * m.m30,
+                m32 = m.m00 * m.m12 * m.m31 + m.m01 * m.m10 * m.m32 + m.m02 * m.m11 * m.m30 - m.m00 * m.m11 * m.m32 -
+                      m.m01 * m.m12 * m.m30 - m.m02 * m.m10 * m.m31,
+                m33 = m.m00 * m.m11 * m.m22 + m.m01 * m.m12 * m.m20 + m.m02 * m.m10 * m.m21 - m.m00 * m.m12 * m.m21 -
+                      m.m01 * m.m10 * m.m22 - m.m02 * m.m11 * m.m20
             };
 
+            
+            /*
+             * al dividirlo por la determinante de la matriz original nos aseguramos
+             * de que no pierda informacion normalizando la diagonal de la matriz
+             *
+             * si multiplicas una matriz por su matriz inversa siempre nos tiene que dar la matriz identidad
+             */
             Matrix ret = new Matrix()
             {
                 m00 = aux.m00 / detA,
@@ -454,7 +488,6 @@ namespace CustomMath
                 m31 = aux.m31 / detA,
                 m32 = aux.m32 / detA,
                 m33 = aux.m33 / detA
-
             };
             return ret;
         }
@@ -558,7 +591,8 @@ namespace CustomMath
                      m02 == double.NaN && m12 == double.NaN && m22 == double.NaN && m32 == double.NaN &&
                      m03 == double.NaN && m13 == double.NaN && m23 == double.NaN && m33 == double.NaN)
                 return false;
-            else if (GetRotation().xq > 1 && GetRotation().xq < - 1 && GetRotation().yq > 1 && GetRotation().yq < -1 && GetRotation().zq > 1 && GetRotation().zq < - 1 && GetRotation().wq > 1 && GetRotation().wq < -1)
+            else if (GetRotation().xq > 1 && GetRotation().xq < -1 && GetRotation().yq > 1 && GetRotation().yq < -1 &&
+                     GetRotation().zq > 1 && GetRotation().zq < -1 && GetRotation().wq > 1 && GetRotation().wq < -1)
                 return false;
             else
                 return true;
@@ -631,7 +665,7 @@ namespace CustomMath
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public Vec3 MultiplyPoint(Vec3 point) // Prestar atencion
+        public Vec3 MultiplyPoint(Vec3 point)
         {
             Vec3 retVec;
 
@@ -639,7 +673,7 @@ namespace CustomMath
             retVec.y = m10 * point.x + m11 * point.y + m12 * point.z + m13;
             retVec.z = m20 * point.x + m21 * point.y + m22 * point.z + m23;
 
-            float aux = 1f / m30 * point.x +m31 * point.y + m32 * point.z + m33;
+            float aux = 1f / m30 * point.x + m31 * point.y + m32 * point.z + m33;
 
             retVec.x *= aux;
             retVec.y *= aux;
@@ -647,6 +681,7 @@ namespace CustomMath
 
             return retVec;
         }
+
         /// <summary>
         /// Transforms a position by this matrix (fast).
         /// Returns a position v transformed by the current transformation matrix. This function is a faster version of MultiplyPoint; but it can only handle regular 3D
@@ -664,6 +699,7 @@ namespace CustomMath
 
             return retVec;
         }
+
         /// <summary>
         /// Transforms a direction by this matrix.
         /// This function is similar to MultiplyPoint;

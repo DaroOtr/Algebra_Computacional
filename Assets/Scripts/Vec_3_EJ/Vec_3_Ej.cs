@@ -1,10 +1,10 @@
-using UnityEngine;
 using CustomMath;
 using MathDebbuger;
+using UnityEngine;
 
 public class Vec_3_Ej : MonoBehaviour
 {
-    [SerializeField][Range(1,10)] private int ejToShow = 1;
+    [SerializeField] [Range(1, 10)] private int ejToShow = 1;
     [SerializeField] private Vec3 First_Vec;
     [SerializeField] private Vec3 Second_Vec;
     private Vector3 Res_Vec;
@@ -36,7 +36,7 @@ public class Vec_3_Ej : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3Debugger.UpdatePosition("First_Vec",First_Vec);
+        Vector3Debugger.UpdatePosition("First_Vec", First_Vec);
         Vector3Debugger.UpdatePosition("Second_Vec", Second_Vec);
         Vector3Debugger.UpdatePosition("Res_Vec", Res_Vec);
 
@@ -80,24 +80,24 @@ public class Vec_3_Ej : MonoBehaviour
         Res_Vec = First_Vec + Second_Vec;
     }
 
-    private void Ej2() 
+    private void Ej2()
     {
         Res_Vec = First_Vec - Second_Vec;
     }
-    
-    private void Ej3() 
+
+    private void Ej3()
     {
         Res_Vec.x = First_Vec.x * Second_Vec.x;
         Res_Vec.y = First_Vec.y * Second_Vec.y;
         Res_Vec.z = First_Vec.z * Second_Vec.z;
     }
 
-    private void Ej4() 
+    private void Ej4()
     {
-        Res_Vec = Vec3.Cross(Second_Vec,First_Vec);
+        Res_Vec = Vec3.Cross(Second_Vec, First_Vec);
     }
 
-    private void Ej5() 
+    private void Ej5()
     {
         lerp += Time.deltaTime;
 
@@ -109,32 +109,32 @@ public class Vec_3_Ej : MonoBehaviour
         }
     }
 
-    private void Ej6() 
+    private void Ej6()
     {
-        Res_Vec = Vec3.Max(First_Vec,Second_Vec);
+        Res_Vec = Vec3.Max(First_Vec, Second_Vec);
     }
 
-    private void Ej7() 
+    private void Ej7()
     {
         Res_Vec = Vec3.Project(First_Vec, Second_Vec.normalized);
     }
 
     private void Ej8()
     {
-       Vec3 aux = Vec3.Reflect(First_Vec, Second_Vec.normalized);
-       Res_Vec = - aux;
+        Vec3 aux = Vec3.Reflect(First_Vec, Second_Vec.normalized);
+        Res_Vec = -aux;
     }
 
     private void Ej9()
     {
-        Res_Vec = Vec3.Reflect(First_Vec,Second_Vec.normalized);
+        Res_Vec = Vec3.Reflect(First_Vec, Second_Vec.normalized);
     }
 
     private void Ej10()
     {
         lerp -= Time.deltaTime;
 
-        Res_Vec = Vec3.LerpUnclamped(First_Vec,Second_Vec,lerp);
+        Res_Vec = Vec3.LerpUnclamped(First_Vec, Second_Vec, lerp);
 
         if (lerp <= -10)
         {

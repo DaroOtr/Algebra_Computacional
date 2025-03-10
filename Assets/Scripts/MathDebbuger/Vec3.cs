@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using EjerciciosAlgebra;
 
 namespace CustomMath
 {
@@ -11,33 +7,90 @@ namespace CustomMath
     public struct Vec3 : IEquatable<Vec3>
     {
         #region Variables
+
         public float x;
         public float y;
         public float z;
 
-        public float sqrMagnitude { get { return (x * x + y * y + z * z); } }
-        public Vec3 normalized { get { return new Vec3(x / magnitude , y / magnitude , z / magnitude); } }
-        public float magnitude { get { return Mathf.Sqrt(x * x + y * y + z * z); } }
+        public float sqrMagnitude
+        {
+            get { return (x * x + y * y + z * z); }
+        }
+
+        public Vec3 normalized
+        {
+            get { return new Vec3(x / magnitude, y / magnitude, z / magnitude); }
+        }
+
+        public float magnitude
+        {
+            get { return Mathf.Sqrt(x * x + y * y + z * z); }
+        }
+
         #endregion
 
         #region constants
+
         public const float epsilon = 1e-05f;
+
         #endregion
 
         #region Default Values
-        public static Vec3 Zero { get { return new Vec3(0.0f, 0.0f, 0.0f); } }
-        public static Vec3 One { get { return new Vec3(1.0f, 1.0f, 1.0f); } }
-        public static Vec3 Forward { get { return new Vec3(0.0f, 0.0f, 1.0f); } }
-        public static Vec3 Back { get { return new Vec3(0.0f, 0.0f, -1.0f); } }
-        public static Vec3 Right { get { return new Vec3(1.0f, 0.0f, 0.0f); } }
-        public static Vec3 Left { get { return new Vec3(-1.0f, 0.0f, 0.0f); } }
-        public static Vec3 Up { get { return new Vec3(0.0f, 1.0f, 0.0f); } }
-        public static Vec3 Down { get { return new Vec3(0.0f, -1.0f, 0.0f); } }
-        public static Vec3 PositiveInfinity { get { return new Vec3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity); } }
-        public static Vec3 NegativeInfinity { get { return new Vec3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity); } }
-        #endregion                                                                                                                                                                               
+
+        public static Vec3 Zero
+        {
+            get { return new Vec3(0.0f, 0.0f, 0.0f); }
+        }
+
+        public static Vec3 One
+        {
+            get { return new Vec3(1.0f, 1.0f, 1.0f); }
+        }
+
+        public static Vec3 Forward
+        {
+            get { return new Vec3(0.0f, 0.0f, 1.0f); }
+        }
+
+        public static Vec3 Back
+        {
+            get { return new Vec3(0.0f, 0.0f, -1.0f); }
+        }
+
+        public static Vec3 Right
+        {
+            get { return new Vec3(1.0f, 0.0f, 0.0f); }
+        }
+
+        public static Vec3 Left
+        {
+            get { return new Vec3(-1.0f, 0.0f, 0.0f); }
+        }
+
+        public static Vec3 Up
+        {
+            get { return new Vec3(0.0f, 1.0f, 0.0f); }
+        }
+
+        public static Vec3 Down
+        {
+            get { return new Vec3(0.0f, -1.0f, 0.0f); }
+        }
+
+        public static Vec3 PositiveInfinity
+        {
+            get { return new Vec3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity); }
+        }
+
+        public static Vec3 NegativeInfinity
+        {
+            get { return new Vec3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity); }
+        }
+
+        #endregion
 
         #region Constructors
+
         public Vec3(float x, float y)
         {
             this.x = x;
@@ -72,9 +125,11 @@ namespace CustomMath
             this.y = v2.y;
             this.z = 0.0f;
         }
+
         #endregion
 
         #region Operators
+
         public static bool operator ==(Vec3 left, Vec3 right)
         {
             /*
@@ -129,7 +184,7 @@ namespace CustomMath
         /// <returns></returns>
         public static Vec3 operator -(Vec3 v3)
         {
-            return new Vec3(- v3.x,- v3.y, - v3.z);
+            return new Vec3(-v3.x, -v3.y, -v3.z);
         }
 
         /// <summary>
@@ -140,7 +195,7 @@ namespace CustomMath
         /// <returns></returns>
         public static Vec3 operator *(Vec3 v3, float scalar)
         {
-            return new Vec3(v3.x * scalar,v3.y * scalar ,v3.z * scalar);
+            return new Vec3(v3.x * scalar, v3.y * scalar, v3.z * scalar);
         }
 
         /// <summary>
@@ -180,11 +235,13 @@ namespace CustomMath
         /// <param name="v3"></param>
         public static implicit operator Vector2(Vec3 v2)
         {
-            return new Vector2(v2.x,v2.y);
+            return new Vector2(v2.x, v2.y);
         }
+
         #endregion
 
         #region Functions
+
         public override string ToString()
         {
             return "X = " + x.ToString() + "   Y = " + y.ToString() + "   Z = " + z.ToString();
@@ -205,7 +262,7 @@ namespace CustomMath
              * Luego se usa el arcocoseno para pasar el coseno a angulos (En radianes)
              * Y finalmente se multiplica por 180 / PI para pasarlo a grados.
              */
-            return Mathf.Acos(Dot(from.normalized,to.normalized)) * 180 / Mathf.PI;
+            return Mathf.Acos(Dot(from.normalized, to.normalized)) * 180 / Mathf.PI;
         }
 
         /// <summary>
@@ -252,7 +309,7 @@ namespace CustomMath
             float y = (a.x * b.z) - (a.z * b.x);
             float z = (a.x * b.y) - (a.y * b.x);
 
-            return new Vec3(x,y,z);
+            return new Vec3(x, y, z);
         }
 
         /// <summary>
@@ -314,7 +371,7 @@ namespace CustomMath
              * Si este mismo tiende a 0 esta mas cerca del punto inicial
              * Si tiende a 1 esta mas cerca del final
              */
-            Mathf.Clamp(t,0,1);
+            Mathf.Clamp(t, 0, 1);
             return a + (b - a) * t;
         }
 
@@ -347,7 +404,7 @@ namespace CustomMath
             float maxValueZ = a.z > b.z ? a.z : b.z;
 
 
-           return new Vec3 (maxValueX, maxValueY, maxValueZ);
+            return new Vec3(maxValueX, maxValueY, maxValueZ);
         }
 
         /// <summary>
@@ -383,12 +440,14 @@ namespace CustomMath
         /// <param name="onNormal"></param>
         /// <returns></returns>
         /// https://docs.unity3d.com/ScriptReference/Vector3.ProjectOnPlane.html
-        public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
+        public static Vec3 Project(Vec3 vector, Vec3 onNormal)
         {
             /*
+             * es la representacion de un vector sobre el otro si la magnitud segundo vector fuese una de las bases canonicas del primero
              * El dot se utiliza para calcular el desfasaje que hay entre los vectores
+             * base canonica : el conjunto de representaciones en distintos ejes en un sistema de unidades
              */
-            float sqrMag = Dot(onNormal,onNormal);
+            float sqrMag = Dot(onNormal, onNormal);
             if (sqrMag < epsilon)
             {
                 return Zero;
@@ -414,7 +473,7 @@ namespace CustomMath
         /// <param name="inDirection"></param>
         /// <param name="inNormal"></param>
         /// <returns></returns>
-        public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
+        public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal)
         {
             /*
              * A partir de la direccion de entrada tomamos el doble del angulo
@@ -457,9 +516,11 @@ namespace CustomMath
             y = y / magnitude;
             z = z / magnitude;
         }
+
         #endregion
 
         #region Internals
+
         public override bool Equals(object other)
         {
             if (!(other is Vec3)) return false;
@@ -475,6 +536,7 @@ namespace CustomMath
         {
             return x.GetHashCode() ^ (y.GetHashCode() << 2) ^ (z.GetHashCode() >> 2);
         }
+
         #endregion
     }
 }

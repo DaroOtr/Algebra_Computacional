@@ -1,9 +1,8 @@
-using CustomMath;
 using System;
 using System.Collections.Generic;
+using CustomMath;
 using UnityEngine;
 using Color = UnityEngine.Color;
-
 
 
 public class Vec_MeshColider : MonoBehaviour
@@ -24,7 +23,7 @@ public class Vec_MeshColider : MonoBehaviour
         public Vec3 origin;
         public Vec3 destination;
 
-        public Vec_Ray(Vec3 origin, Vec3 destination) 
+        public Vec_Ray(Vec3 origin, Vec3 destination)
         {
             this.origin = origin;
             this.destination = destination;
@@ -122,7 +121,7 @@ public class Vec_MeshColider : MonoBehaviour
 
             Vec_Ray ray = new Vec_Ray(point, direction);
             int counter = 0;
-            
+
             foreach (var plane in m_planes)
             {
                 if (IsPointInPlane(plane, ray, out Vec3 collisionPoint))
@@ -156,6 +155,7 @@ public class Vec_MeshColider : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 
@@ -168,23 +168,23 @@ public class Vec_MeshColider : MonoBehaviour
         float x1 = mesh_P.va.x;
         float x2 = mesh_P.vb.x;
         float x3 = mesh_P.vc.x;
-        
+
         float y1 = mesh_P.va.y;
         float y2 = mesh_P.vb.y;
         float y3 = mesh_P.vc.y;
-        
+
         float px = point.x;
         float py = point.y;
-        
+
         // get the area of the triangle
         float areaOrig = Math.Abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
-        
+
         // get the area of 3 triangles made between the point
         // and the corners of the triangle
         float area1 = Math.Abs((x1 - px) * (y2 - py) - (x2 - px) * (y1 - py));
         float area2 = Math.Abs((x2 - px) * (y3 - py) - (x3 - px) * (y2 - py));
         float area3 = Math.Abs((x3 - px) * (y1 - py) - (x1 - px) * (y3 - py));
-        
+
         // if the sum of the three areas equals the original,
         // we're inside the triangle!
         //if (area1 + area2 + area3 == areaOrig)
@@ -212,6 +212,7 @@ public class Vec_MeshColider : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 
@@ -229,7 +230,9 @@ public class Vec_MeshColider : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying)
-        { return; }
+        {
+            return;
+        }
 
         //Gizmos.color = Color.red;
         //for (int i = 0; i < colP.Count; i++)
@@ -239,7 +242,7 @@ public class Vec_MeshColider : MonoBehaviour
 
         foreach (var item in pointsToCheck)
         {
-            Gizmos.DrawRay(item,Vec3.Forward * 10f);
+            Gizmos.DrawRay(item, Vec3.Forward * 10f);
         }
     }
 }

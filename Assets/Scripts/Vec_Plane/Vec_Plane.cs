@@ -5,9 +5,8 @@ namespace CustomMath
     /// <summary>
     /// Un plano es un objeto matematico compuesto por una sucecion infinita de rectas que dividen el espacio en 2
     /// </summary>
-    public struct Vec_Plane 
+    public struct Vec_Plane
     {
-        
         // El tema de las coliciones tambien pasa por aca
 
         private Vec3 p_Normal;
@@ -22,31 +21,19 @@ namespace CustomMath
         //The direction in which the plane is pointing
         public Vec3 normal
         {
-            get
-            {
-                return p_Normal;
-            }
-            set
-            {
-                p_Normal = value;
-            }
+            get { return p_Normal; }
+            set { p_Normal = value; }
         }
 
         // The distance from 00 of the world to the plane
         public float distance
         {
-            get
-            {
-                return p_Distance;
-            }
-            set
-            {
-                p_Distance = value;
-            }
+            get { return p_Distance; }
+            set { p_Distance = value; }
         }
 
         // flip the plane
-        public Vec_Plane flipped => new Vec_Plane(-p_Normal, - p_Distance);
+        public Vec_Plane flipped => new Vec_Plane(-p_Normal, -p_Distance);
 
         public Vec_Plane(Vec3 inNormal, Vec3 inPoint)
         {
@@ -54,15 +41,19 @@ namespace CustomMath
              * Solo puede pasar un plano que pase por este punto y la normal este a 90 grados
              */
             p_Normal = inNormal.normalized;
-            p_Distance = - Vec3.Dot(p_Normal, inPoint);
-            va = Vec3.Zero; vb = Vec3.Zero; vc = Vec3.Zero;
+            p_Distance = -Vec3.Dot(p_Normal, inPoint);
+            va = Vec3.Zero;
+            vb = Vec3.Zero;
+            vc = Vec3.Zero;
         }
 
         public Vec_Plane(Vec3 inNormal, float d)
         {
             p_Normal = inNormal.normalized;
             p_Distance = d;
-            va = Vec3.Zero; vb = Vec3.Zero; vc = Vec3.Zero;
+            va = Vec3.Zero;
+            vb = Vec3.Zero;
+            vc = Vec3.Zero;
         }
 
         public Vec_Plane(Vec3 a, Vec3 b, Vec3 c)
@@ -75,30 +66,32 @@ namespace CustomMath
              *
              * Si quiero dar vuelta la normal puedo pasarle los puntos al revez para que de esta manera la normal del plano quede al revez
              */
-            
-            va = a; vb = b; vc = c;
+
+            va = a;
+            vb = b;
+            vc = c;
             Vec3 aux = Vec3.Cross(b - a, c - a);
             p_Normal = aux.normalized;
-            p_Distance = - Vec3.Dot(p_Normal, a);
+            p_Distance = -Vec3.Dot(p_Normal, a);
         }
 
         public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
         {
             p_Normal = inNormal.normalized;
-            p_Distance = - Vec3.Dot(inNormal, inPoint);
+            p_Distance = -Vec3.Dot(inNormal, inPoint);
         }
 
         public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
         {
             Vec3 aux = Vec3.Cross(b - a, c - a);
             p_Normal = aux.normalized;
-            p_Distance = - Vec3.Dot(p_Normal, a);
+            p_Distance = -Vec3.Dot(p_Normal, a);
         }
 
         public void Flip()
         {
             p_Normal = -p_Normal;
-            p_Distance = - p_Distance;
+            p_Distance = -p_Distance;
         }
 
         public void Translate(Vec3 translation)
@@ -158,7 +151,8 @@ namespace CustomMath
             if (normal.normalized != Vector3.forward)
                 v3 = Vector3.Cross(normal, Vector3.forward).normalized * normal.magnitude;
             else
-                v3 = Vector3.Cross(normal, Vector3.up).normalized * normal.magnitude; ;
+                v3 = Vector3.Cross(normal, Vector3.up).normalized * normal.magnitude;
+            ;
             var corner0 = position + v3;
             var corner2 = position - v3;
             var q = Quaternion.AngleAxis(90.0f, normal);
